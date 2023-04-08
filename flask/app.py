@@ -1,27 +1,35 @@
-from flask import Flask, request
-from datetime import datetime
-import base64
+from flask import Flask, request, jsonify
+import cv2
 import boto3
+import base64
 
 app = Flask(__name__)
+
+# Set up the S3 client
+s3 = boto3.client('s3')
+
+@app.route('/', methods=['GET'])
+def index():
+    return "This is a demo for foodjugglers photo feature"
 
 @app.route('/upload', methods=['POST'])
 def upload():
     # Get the image data from the request
-    image_data = request.json['image']
+    image_data = request.json.get('image')
 
     # Decode the base64 image data
-    img_bytes = base64.b64decode(image_data.split(',')[1])
+    image_bytes = base64.b64decode(image_data)
 
-    # Create a unique file name for the image
-    now = datetime.now()
-    filename = f"{now.strftime('%Y%m%d_%H%M%S')}_image.jpg"
+    # Convert the image to a NumPy array
+    image_np = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_COLOR)
 
-    # Save the image to S3
-    s3 = boto3.client('s3')
-    s3.put_object(Bucket='foodjuggler-raw-1', Key=filename, Body=img_bytes)
+    # Upload the image to S3
+    bucket_name = 'your-bucket-name'
+    object_key = 'image.jpg'
+    s3.put_object(Bucket=bucket_name, Key=object_key, Body=image_bytes)
 
-    return 'Image uploaded to S3'
+    # Return a response
+    return jsonify({'message': 'Image uploaded successfully'})
 
 if __name__ == '__main__':
     app.run(debug=True)
