@@ -9,7 +9,7 @@
     <h2>This is a demo for foodjugglers photo feature</h2>
     <p>(This is at the moment just working from mobile devices) AND COMMITED LOCALLY :D - which probably always works now...</p>
 
-    <button onclick="captureImage()">Capture Image</button>
+    <input type="file" name="photo" capture="camera" accept="image/*" onchange="uploadImage(this)">
 
     <script>
         function captureImage() {
