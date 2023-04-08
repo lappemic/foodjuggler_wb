@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>FoodJugglers Photo Feature</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>This is a demo for foodjugglers photo feature</h1>
+    <h3>(This is at the moment just working from mobile devices)</h3>
+
+    <input type="file" name="photo" capture="user" accept="image/*" onchange="uploadImage(this)">
+    <!-- <input type="file" name="photo" capture="user" accept="image/*"> -->
+
+    <script>
+        function uploadImage(input) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function() {
+                const dataURL = reader.result;
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/upload');
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify({ image: dataURL }));
+            };
+        }
+    </script>
+
+</body>
+</html>
