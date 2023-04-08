@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-import cv2
 import boto3
 import base64
 
@@ -24,7 +23,7 @@ def upload():
     image_np = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_COLOR)
 
     # Upload the image to S3
-    bucket_name = 'your-bucket-name'
+    bucket_name = 'foodjuggler-raw-1'
     object_key = 'image.jpg'
     s3.put_object(Bucket=bucket_name, Key=object_key, Body=image_bytes)
 
