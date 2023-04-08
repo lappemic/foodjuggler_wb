@@ -1,3 +1,5 @@
+<!-- taken from:
+    https://github.com/aws-samples/amazon-s3-presigned-urls-aws-sam/blob/master/frontend/index.html -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,11 +9,12 @@
     </head>
     <body>
         <div id="app">
-            <h1>S3 Uploader Test</h1>
+            <h1>foodjuggler uploader Test</h1>
 
             <div v-if="!image">
-            <h2>Select an image</h2>
-            <input type="file" @change="onFileChange" accept="image/jpeg">
+            <h2>make a picture</h2>
+            <input type="file" @change="onFileChange" capture="user" accept="image/jpeg">
+            <!-- <input type="file" name="photo" capture="user" accept="image/*"> -->
         </div>
         <div v-else>
             <img :src="image" />
